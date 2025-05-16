@@ -12,15 +12,23 @@ pipeline {
         stage('List Files') {
             steps {
                 echo 'Listing files in workspace...'
-                bat 'dir' // Use 'ls' if on Linux/Mac
+                bat 'dir' // Use 'ls' for Linux
             }
         }
 
-        stage('Build Simulation') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Running a simulated build step...'
-                bat 'echo Build step executed!'
+                echo 'Installing Python dependencies...'
+                bat 'pip install -r requirements.txt'
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                echo 'Running tests with pytest...'
+                bat 'pytest test_app.py'
             }
         }
     }
 }
+
