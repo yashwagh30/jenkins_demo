@@ -4,31 +4,23 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                echo 'Cloning repository...'
+                echo 'Cloning code...'
                 checkout scm
             }
         }
 
-        stage('List Files') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Listing files in workspace...'
-                bat 'dir' // Use 'ls' for Linux
+                echo 'Building Docker image...'
+                bat 'docker build -t myapp:day58 .'
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Verify Docker Image') {
             steps {
-                echo 'Installing Python dependencies...'
-                bat 'pip install -r requirements.txt'
-            }
-        }
-
-        stage('Run Unit Tests') {
-            steps {
-                echo 'Running tests with pytest...'
-                bat 'pytest test_app.py'
+                echo 'Listing Docker images...'
+                bat 'docker images'
             }
         }
     }
 }
-
